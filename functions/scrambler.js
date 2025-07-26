@@ -42,8 +42,11 @@ export async function handler(event) {
 
       // <link rel="stylesheet" href="https://en.wikipedia.org/w/load.php?modules=site.styles&only=styles">
       // <link rel="stylesheet" href="https://en.wikipedia.org/w/load.php?modules=skins.vector.styles.legacy&only=styles">
-
-    res.send(`
+    
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'text/html' },
+      body: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -93,8 +96,12 @@ export async function handler(event) {
             ${html}
         </body>
       </html>
-    `)
+    `,
+    }
   } catch (err) {
-    res.status(404).send('Something bad has happened. does the wiki page exist?.')
+        return {
+      statusCode: 500,
+      body: 'Something bad happened. does the wiki page exist?',
+    }
   }
 }
