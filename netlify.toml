@@ -3,5 +3,5 @@
 
 [[redirects]]
   from = "/:page"
-  to = "/.netlify/functions/scramble"
+  to = "/.netlify/functions/scrambler"
   status = 200
