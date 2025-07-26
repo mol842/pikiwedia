@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 
 // word scrombler
 // stole this from stack overflow thx
@@ -16,7 +15,9 @@ function scramble(text) {
     .join('')
 }
 
-export async function handler(event) {
+const fetch = require('node-fetch')
+
+exports.handler = async function (event) {
   const path = event.path
   const page = decodeURIComponent(path.split('/').pop())
   const url = `https://en.wikipedia.org/api/rest_v1/page/html/${page}`
