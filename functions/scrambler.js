@@ -87,8 +87,9 @@ function scromble_pairs_new(text){
   // (word) (word or space or and or whatever) (word)
   // this may not work if its greedy
   //const regex = /(\w+)(\s)(\w+)/g
+  const regex = /\b((?!\b(?:the|at|is|or|as|any)\b)[^aeiouAEIOU\s]+[a-zA-Z]{2,})((?:\s?(?:\s|at|,|and|or|of|is|a|as|with|-)\s?)+)\b((?:(?!\b(?:the|is|at|or|as|any))\b)[^aeiouAEIOU\s]+[a-zA-Z]{2,})/gi
 
-  const regex = /\b([^aeiouAEIOU\s]+[a-zA-Z]{2,})(\s?(?:\s|,|and|or|of|-)\s?)\b([^aeiouAEIOU\s]+[a-zA-Z]{2,})/gi
+  // const regex = /\b([^aeiouAEIOU\s]+[a-zA-Z]{2,})(\s?(?:\s|,|and|or|of|-)\s?)\b([^aeiouAEIOU\s]+[a-zA-Z]{2,})/gi
   // const regex = /([^aeiouAEIOU\s][a-zA-Z]{2,})(\s?(?:,|\s|and|or|of|-)\s?)([^aeiouAEIOU\s][a-zA-Z]{2,})/gi
   //const regex = /([^aeiouAEIOU\s]\w{2,})(\s?(?:\s|and|or|of)\s?)([^aeiouAEIOU\s]\w{2,})/g
 
@@ -185,8 +186,12 @@ exports.handler = async function (event) {
         <body>
             <div class="mw-body">
             <div class="mw-header">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png">
-              <h1>Pikiwedia: the Lee Enfrycopedia</h1>
+              <a href="https://pikiwedia.netlify.app/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png">
+              </a>
+              <a href="https://pikiwedia.netlify.app/">
+                <h1>Pikiwedia: the Lee Enfrycopedia</h1>
+              </a>
             </div>
             ${html}
         </body>
