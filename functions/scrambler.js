@@ -1,4 +1,6 @@
 
+//// ======== old, unused ========
+
 // word scrombler
 // stole this from stack overflow thx
 function scramble(text) {
@@ -14,10 +16,8 @@ function scramble(text) {
     })
     .join('')
 }
-
-const stopwords = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
-
 function scromble_pairs(text) {
+  // simple scrombler, doesnt weally rork
   return text.replace(/\b(\w+)\s+(\w+)\b/g, (match, w1, w2) => {
     if (w1.length > 3 && w2.length > 3 && !(w1 in stopwords) & !(w1 in stopwords) ) {
       return w2[0] + w1.slice(1) + ' ' + w1[0] + w2.slice(1)
@@ -25,6 +25,83 @@ function scromble_pairs(text) {
     return match
   })
 }
+
+
+//// ======== helper function ========
+
+function get_word_start(word){
+    // get chunk up to first vowel
+    const match = word.match(/^[^aeiouAEIOU]+/);
+    if (match) {
+      return match[0]
+    }
+    return ""
+}
+function get_word_end(word) {
+    // get chunk after first vowel
+    const match = word.match(/^[^aeiouAEIOU]+(.*)/);
+    if (match) {
+      return match[1]
+    }
+    return ""
+}
+
+function startsWithUpperCase(word){
+  // does isuppercase seriously not exist?
+  // true if it does, false if it doesnt start with a captital
+  return word[0] == word[0].toUpperCase();
+}
+
+function firstToUpperCase(word, isCap){
+  if (isCap){
+    word = word.charAt(0).toUpperCase() + word.slice(1);
+  } else {
+    word = word.charAt(0).toLowerCase() + word.slice(1);
+  }
+  return word;
+}
+
+function swapCapitals(w1, w2){
+  let w1_new = firstToUpperCase(w1, startsWithUpperCase(w2));
+  let w2_new = firstToUpperCase(w2, startsWithUpperCase(w1));
+  return w1_new, w2_new
+}
+
+//// ======== end helper functions ========
+
+
+function spoonerise_pair(w1, w2, w0=" ") {
+  // get spaces at start and end of word ugh...
+  let w1_start = get_word_start(w1);
+  let w2_start = get_word_start(w2);
+  w1_start, w2_start = swapCapitals(w1_start, w2_start);
+
+  return (w2_start + get_word_end(w1) + w0 + w1_start + get_word_end(w2));
+  // return (get_word_start(w2) + get_word_end(w1) + w0 + get_word_start(w1) + get_word_end(w2));
+}
+
+const stopwords =  ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
+const sepwords = ["and", "or", " ", "of"]
+
+function scromble_pairs_new(text){
+  // (word) (word or space or and or whatever) (word)
+  // this may not work if its greedy
+  //const regex = /(\w+)(\s)(\w+)/g
+
+  const regex = /\b([^aeiouAEIOU\s]+[a-zA-Z]{2,})(\s?(?:\s|,|and|or|of|-)\s?)\b([^aeiouAEIOU\s]+[a-zA-Z]{2,})/gi
+  // const regex = /([^aeiouAEIOU\s][a-zA-Z]{2,})(\s?(?:,|\s|and|or|of|-)\s?)([^aeiouAEIOU\s][a-zA-Z]{2,})/gi
+  //const regex = /([^aeiouAEIOU\s]\w{2,})(\s?(?:\s|and|or|of)\s?)([^aeiouAEIOU\s]\w{2,})/g
+
+  return text.replace(regex, (match, w1, sep, w2) => {
+    if (stopwords.includes(w1.toLowerCase()) || stopwords.includes(w2.toLowerCase())){
+      console.log("EVIL" + w1, sep, w2)
+      // return w1 + sep + w2
+    }
+    return spoonerise_pair(w1, w2, sep);
+    
+  })
+}
+
 
 
 const fetch = require('node-fetch')
@@ -51,7 +128,7 @@ exports.handler = async function (event) {
 
     // scromble all the text!!!!!!! 
     // everything between > tags <
-    html = html.replace(/>([^<]+)</g, (match, text) => `>${scromble_pairs(text)}<`)
+    html = html.replace(/>([^<]+)</g, (match, text) => `>${scromble_pairs_new(text)}<`)
     // get rid of wiki links
     // html = html.replace(/href="\/wiki\/([^"]+)"/g, 'href="pikiwedia.netlify.app/$1"')
 
