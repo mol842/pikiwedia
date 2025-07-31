@@ -109,9 +109,9 @@ const fetch = require('node-fetch')
 
 exports.handler = async function (event) {
   const path = event.path
-  const page = decodeURIComponent(path.split('/').pop())
-  const url = `https://en.wikipedia.org/api/rest_v1/page/html/${page}`
-  // const url = `https://en.wikipedia.org/wiki/${page}`
+  const pageTitle = decodeURIComponent(path.split('/').pop())
+  const url = `https://en.wikipedia.org/api/rest_v1/page/html/${pageTitle}`
+  // const url = `https://en.wikipedia.org/wiki/${pageTitle}`
   try {
     const response = await fetch(url)
 
@@ -181,7 +181,7 @@ exports.handler = async function (event) {
 
           </style>
           <meta charset="utf-8">
-          <title>${page}</title>
+          <title>Pikiwedia: ${pageTitle.replaceAll("_", " ")}</title>
           <link rel="icon" type="image/png" href="/public/wiki-8ball.png">
 
         </head>
@@ -190,7 +190,7 @@ exports.handler = async function (event) {
             <div class="mw-body">
             <div class="mw-header">
               <a href="https://pikiwedia.netlify.app/">
-                <img src="/public/wiki-8ball.png" alt="Pikiwedia Logo">
+                <img src="/public/wiki-8ball.png" alt="Pikiwedia Logo" width="60" height="60">
               </a>
               <a href="https://pikiwedia.netlify.app/">
                 <h1>Pikiwedia: the Lee Enfrycopedia</h1>
