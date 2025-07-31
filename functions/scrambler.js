@@ -182,12 +182,15 @@ exports.handler = async function (event) {
           </style>
           <meta charset="utf-8">
           <title>${page}</title>
+          <link rel="icon" type="image/png" href="/public/wiki-8ball.png">
+
         </head>
+        
         <body>
             <div class="mw-body">
             <div class="mw-header">
               <a href="https://pikiwedia.netlify.app/">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png">
+                <img src="/public/wiki-8ball.png" alt="Pikiwedia Logo">
               </a>
               <a href="https://pikiwedia.netlify.app/">
                 <h1>Pikiwedia: the Lee Enfrycopedia</h1>
